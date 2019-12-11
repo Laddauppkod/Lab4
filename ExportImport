@@ -1,0 +1,26 @@
+require(readxl)  #Detta paket gör så att excel filer kan läsa in direkt
+require(portfolio) #Detta paket behövs för att kunna göra tree maps
+source("https://raw.githubusercontent.com/canadice/visualization_literature/master/treemapbrewer.r") #Hämtar en modifierad version till tree maps
+require(RColorBrewer)  #Detta paket gör så att bättre färger kan användas
+require(dplyr) #Detta paket behövs för att kunna använda summerings funktionen för att få ut medelvärde i detta fall
+
+setwd("C:/Users/Dick/Desktop/R Projekt/DataLab/DataLab4") #Säger vilken mapp som filer ska läsas in från
+
+
+
+Dia <- read_excel("VIS4 Importexport2mest.xlsx") #läser in datan från excel
+
+
+Dia_agg <- Dia %>% group_by(Land) %>% summarise(Importmedel = mean(Import), #Skapar medelvärden för import och export 
+                                                Exportmedel = mean(Export))
+
+
+treemap_brewer(id = Dia_agg$Land,   #Tree map diagramet, id bestämmer datamaterialet som används som etikett
+               group = Dia_agg$Land, #Bestämmer hur många och vilka celler som ska skapas
+               area = Dia_agg$Importmedel, #Säger vilket datamaterial som avgör storleken för varje cell
+               color = Dia_agg$Exportmedel,  #Säger vilket datamaterial som avgör cellens färg
+               textcol = "black", #Bestämmer färgen på texten i cellerna
+               linecol = "black", #Bestämmer färgen på kantlinjerna runt cellerna
+               pal = "Oranges", #Anger en färgpalett som ska användas
+               main = "Tree map över import och export")  #Titeln för diagramet
+
