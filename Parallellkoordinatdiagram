@@ -1,0 +1,38 @@
+require(readxl) #Detta paket gör så att excel filer kan läsa in direkt
+require(GGally) #Detta paket gör så att det går att skapa ett parallellkoordinatdiagram
+require(RColorBrewer) #Detta paket gör så att bättre färger kan användas
+
+setwd("C:/Users/Dick/Desktop/R Projekt/DataLab/DataLab4") #Säger vilken map data kommer hämtas ifrån
+
+
+Dia <- read_excel("VIS4 Oljor Region 3syror.xlsx") #Anger vilken fil som ska läsas in
+
+
+ggparcoord(data = Dia, columns = c(7,9,10), scale = "uniminmax",  #Skapar diagrammet samt att "columns" säger vilka kolumner
+           groupColumn = 2)   + #som kommer läsas in. "groupColum" anger ett färgschema
+  
+  
+  theme_bw() + theme(axis.title.y = element_text(angle = 0,  #anger tema och justerar y-axelns beskrivning
+                                                 hjust = 0,
+                                                 vjust = 0.5),
+                     plot.title = 
+                       element_text(hjust = 0.5),
+                     plot.subtitle = 
+                       element_text(hjust = 0),       #Dessa rader ordnar med stödlinjer samt deras färger och titelns centrering
+                     panel.grid.major.x =
+                       element_line(colour = "gray"),
+                     panel.grid.minor.x = 
+                       element_line(color = "light gray"),
+                     panel.grid.major.y = 
+                       element_line(color = "gray"),
+                     panel.grid.minor.y = 
+                       element_line(color = "light gray"),
+                     plot.caption = element_text(hjust = 0)) +  #Källans centrering
+  
+  labs(title = "Fördelning av syror i italienska oljor", #skapar titel och anger namnen på axlarna
+       x = "variabel",
+       y = "värde",      #Nedan skapas källan samt att "\n" gör radbrytning
+       caption = "Källa:Forina, Armanino, Lanteri, Tiscornia (1983) Classification of Olive Oils from their Fatty Acid Composition, \n in Martens and Russwurm (ed) Food Research and Data Analysis.")
+
+
+
